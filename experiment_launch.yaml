@@ -1,0 +1,18 @@
+# One-command launcher settings. Edit experiment_design.yaml for model
+# conditions, seeds, training duration, and dataset size. The current plan is
+# exploratory; it expands to 32 runs before the run_limit is applied.
+plan: experiment_design.yaml
+
+# Number of catalog runs to train; set to 0 to run every catalog entry.
+run_limit: 0
+
+# Temporal dashboard settings.
+temporal_dashboard: true
+measurement_every: 1
+measurement_samples: 500
+# Dimensions used for low-variance and random F_C subspaces.
+fc_subspace_dims: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+
+# Retain each launch in a separate timestamped output folder.
+output_prefix: experiment
+save_each_launch: true

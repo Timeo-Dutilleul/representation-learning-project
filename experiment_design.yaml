@@ -1,0 +1,69 @@
+# Editable exploratory experiment plan. The current settings expand to 32
+# runs (2 activations x 2 dropout values x 2 learning rates x 2 optimizers x
+# 2 seeds), with 20 epochs over 40% of the available MNIST training split.
+# This is exploratory, not a scientifically powered design.
+#
+# Current freedom provided by the training code and existing Model Zoos code:
+# - Architecture: CNN, CNN2, CNN3, Resnet18 are named architectures in the
+#   cloned repository. This runner uses the MNIST tensor dataset and currently
+#   accepts CNN, CNN2, and CNN3. Resnet18 is explicitly rejected because the
+#   current classifier/measurement path has not been validated for it.
+# - Layer count/width: only the fixed layouts implemented by those named
+#   classes are available. Arbitrary depths, channel counts, and hidden widths
+#   are NOT configurable yet; they require a configurable model constructor.
+# - Input geometry: CNN and CNN2 require 28x28 MNIST inputs. CNN3 requires
+#   32x32 and the runner zero-pads cached 28x28 MNIST images by 2 pixels on
+#   each edge. This preprocessing is recorded per run and means CNN3 is not a
+#   perfectly controlled architecture-only comparison with CNN/CNN2.
+# - Activations accepted by CNN/CNN2/CNN3: leakyrelu, relu, tanh, sigmoid,
+#   silu, gelu. Resnet18's activation support may be narrower.
+# - Optimizers implemented by NNmodule: adam, sgd, rms_prop. SGD/RMSprop
+#   accept momentum; SGD also accepts nesterov.
+# - Common model parameters: dropout and init_type. Initializers in the
+#   existing CNN code: uniform, normal, xavier_uniform, xavier_normal,
+#   kaiming_uniform, kaiming_normal. Bias use is currently fixed by the model
+#   constructors; the old use_bias config flag does not reliably disable it.
+# - Training parameters: learning rate, weight decay, batch size and epochs.
+#   Schedulers are not yet supported by this runner.
+# - Seeds: list one or more seeds per condition. Each seed creates a separate
+#   run for the same condition.
+# - Dataset: currently only the already-cached MNIST TensorDataset is
+#   supported. train_fraction selects a deterministic subset of its training
+#   split; the fixed validation/test splits are retained. Dataset corruption,
+#   label noise, class imbalance, alternate datasets, and custom transforms
+#   are not yet implemented.
+# - Measurements: for CNN/CNN2/CNN3, the runner automatically selects the
+#   last hidden Linear layer and its activation. Resnet18 and arbitrary-width
+#   models are not supported by this measurement path.
+# - Current plan: an exploratory activation/dropout/learning-rate/optimizer
+#   comparison with two seeds. It is not a final scientific design; choose
+#   conditions and training settings based on the questions to answer.
+#
+# Every parameter below may be a scalar or a list. Lists are expanded as a
+# Cartesian product within each condition. Use explicit condition IDs and
+# distinct seeds so the generated catalogue is easy to audit.
+experiment:
+  name: mnist_exploratory
+  dataset:
+    source: cached_mnist_tensor
+    path: data/mnist_zoo_raw/tune_zoo_mnist_uniform/dataset.pt
+    train_fraction: 0.4
+    subset_seed: 2026
+  training:
+    batch_size: 128
+    epochs: 20
+    checkpoint_epochs: [20]
+    device: cpu
+  conditions:
+    - id: cnn
+      architecture: CNN
+      activation: [tanh, relu]
+      dropout: [0.0, 0.15]
+      initializer: uniform
+      use_bias: true
+      optimizer: [adam, sgd]
+      learning_rate: [0.001, 0.01]
+      weight_decay: 0.0001
+      momentum: 0.9
+      nesterov: false
+      seeds: [11, 22]

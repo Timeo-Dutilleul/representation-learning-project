@@ -1,0 +1,7 @@
+# Runtime dependencies for the repository's experiment and analysis scripts.
+# Install the separate ModelZooDataset source tree as described in README.md.
+numpy==2.0.2
+pandas==2.3.3
+PyYAML==6.0.3
+tensorboard==2.21.0
+torch==2.8.0

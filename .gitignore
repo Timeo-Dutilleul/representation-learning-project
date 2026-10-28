@@ -1,0 +1,103 @@
+# Python environments and interpreter artefacts
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+.python-version
+
+# Tests, coverage, and tooling caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+.tox/
+.nox/
+.coverage
+coverage.xml
+htmlcov/
+
+# Editors and operating-system metadata
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.tmp
+*.tmp.*
+*.bak
+.DS_Store
+._*
+Thumbs.db
+
+# Local data, cached datasets, model weights, and generated experiment output
+data/**
+results/
+dashboards/
+dashboard.html
+*_dashboard.html
+checkpoints/
+raw/
+*.npz
+*.npy
+*.pt
+*.pth
+*.ckpt
+*.tensorboard
+*.tfevents.*
+*.log
+*.out
+
+# Generated audit exports; these contain machine-local paths and run data
+analysis_manifest.json
+analysis_quality_report.md
+screening_manifest.json
+*_manifest.json
+*_quality_report.md
+
+# Private notes and scratch material
+local/
+agent_notes/
+scratch/
+private_exports/
+*assistant*prompt*
+*change_request*
+vscode_*.md
+commandes.txt
+*.odt
+
+# Secrets and local environment settings
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.*
+
+# LaTeX build products (keep .tex, bibliography, and the intentional PDF)
+report/build/
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.idx
+*.ilg
+*.ind
+*.lof
+*.log
+*.nav
+*.out
+*.run.xml
+*.snm
+*.synctex.gz
+*.toc
+*.vrb
+
+# Public static dashboard bundle for GitHub Pages
+!docs/dashboard/
+!docs/dashboard/runs/
+!docs/dashboard/runs/**/
+!docs/dashboard/runs/**/dashboard.html
